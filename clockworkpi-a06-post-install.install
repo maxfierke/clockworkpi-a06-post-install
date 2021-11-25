@@ -1,0 +1,27 @@
+post_install() {
+    # Edit fstab
+    echo "Editing fstab..."
+    echo "LABEL=BOOT_MNJRO  /boot   vfat    defaults        0       0" >> /etc/fstab
+    # Edit mkinitcpio.conf
+    echo "Editing mkinitcpio.conf..."
+    sed -i s/"^HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)"/"HOOKS=(base udev plymouth autodetect modconf block filesystems keyboard fsck)"/g /etc/mkinitcpio.conf
+    sed -i s/"^MODULES=()"/"MODULES=(rtc_rk808 rockchipdrm)"/g /etc/mkinitcpio.conf
+    # Edit extlinux.conf
+    echo "Editing extlinux.conf..."
+    sed -i s!"bootsplash.bootfile=bootsplash-themes/manjaro/bootsplash"!"quiet splash plymouth.ignore-serial-consoles"!g /boot/extlinux/extlinux.conf
+    # Set Plymouth Manjaro theme
+    if [ -f /usr/bin/plymouth-set-default-theme ] && [ -d /usr/share/plymouth/themes/materia-manjaro ]; then
+        plymouth-set-default-theme -R materia-manjaro
+    fi
+}
+
+post_upgrade() {
+    # Provide instructions
+    if ! grep -q '^MODULES=(.*rtc_rk808' /etc/mkinitcpio.conf; then
+        echo "To prevent journal corruption on boot, please add 'rtc_rk808' to the start"
+        echo "of the 'MODULES' list in /etc/mkinitcpio.conf and rebuild the initcpio images."
+        echo "You can do this by running:"
+        echo "# sed -i 's/^MODULES=(/MODULES=(rtc_rk808 /g' /etc/mkinitcpio.conf"
+        echo "# mkinitcpio -P"
+    fi
+}
