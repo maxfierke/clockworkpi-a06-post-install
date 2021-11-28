@@ -5,7 +5,7 @@ post_install() {
     # Edit mkinitcpio.conf
     echo "Editing mkinitcpio.conf..."
     sed -i s/"^HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)"/"HOOKS=(base udev plymouth autodetect modconf block filesystems keyboard fsck)"/g /etc/mkinitcpio.conf
-    sed -i s/"^MODULES=()"/"MODULES=(rtc_rk808 rockchipdrm)"/g /etc/mkinitcpio.conf
+    sed -i s/"^MODULES=()"/"MODULES=(rtc_rk808 rockchipdrm panel_cwd686 ocp8178_bl)"/g /etc/mkinitcpio.conf
     # Edit extlinux.conf
     echo "Editing extlinux.conf..."
     sed -i s!"bootsplash.bootfile=bootsplash-themes/manjaro/bootsplash"!"quiet splash plymouth.ignore-serial-consoles"!g /boot/extlinux/extlinux.conf
