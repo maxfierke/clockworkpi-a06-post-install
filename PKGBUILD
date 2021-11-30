@@ -9,7 +9,11 @@ arch=('any')
 url="https://github.com/maxfierke/clockworkpi-a06-alarm"
 license=('GPL')
 install=${pkgname}.install
+source=('10-monitor.conf')
+md5sums=('0939a3e65eca3ca2e8bd8f4f843eed47')
 
 package() {
     echo "Modifying clockworkpi-a06 specific files..."
+
+    install -Dm644 "${srcdir}/10-monitor.conf"  "${pkgdir}/etc/X11/xorg.conf.d/10-monitor.conf"
 }
