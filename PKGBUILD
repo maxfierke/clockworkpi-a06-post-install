@@ -1,5 +1,5 @@
+# Maintainer: Dan Johansen <strit@manjaro.org>
 # Maintainer : Max Fierke <max@maxfierke.com>
-# Based on rockpro64-post-install by Dan Johansen (Strit)
 
 pkgname=clockworkpi-a06-post-install
 pkgver=20$(date +%y%m%d)
